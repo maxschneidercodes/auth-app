@@ -5,7 +5,7 @@ function connectMongoDB() {
   const MONGODB_USERNAME = process.env.MONGODB_USERNAME;
   const MONGODB_PASS = process.env.MONGODB_PASS;
   const MONGODB_CLUSTER_NAME = process.env.MONGODB_CLUSTER_NAME;
-  const DATABASE_URL = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASS}@${MONGODB_CLUSTER_NAME}.levopyn.mongodb.net/?retryWrites=true&w=majority`;
+  const DATABASE_URL = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASS}@${MONGODB_CLUSTER_NAME}.quw9fxz.mongodb.net/?retryWrites=true&w=majority`;
 
   try {
     mongoose.connect(DATABASE_URL);

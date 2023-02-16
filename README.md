@@ -1,5 +1,5 @@
-# auth-example
- 
+# ms-auth-example
+
 ![Bildschirmfoto 2023-02-16 um 11 12 52](https://user-images.githubusercontent.com/45995648/219336143-9cc3db14-e184-43c1-b563-047f41fc78ca.png)
 ![Bildschirmfoto 2023-02-16 um 11 12 56](https://user-images.githubusercontent.com/45995648/219336153-bb05df10-d50d-4b81-be54-b2decc62a265.png)
 ![Bildschirmfoto 2023-02-16 um 11 12 59](https://user-images.githubusercontent.com/45995648/219336160-e8b556c7-7d1d-412c-b65a-a651d0da22eb.png)

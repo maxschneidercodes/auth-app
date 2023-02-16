@@ -8,7 +8,20 @@ router.get("/", function (req, res) {
 });
 
 router.get("/signup", async function (req, res) {
-  res.status(200).render("signup");
+  let inputData = req.session.inputData;
+  if (!inputData) {
+    inputData = {
+      hasError: false,
+      message: "",
+      email: "",
+      comfirmEmail: "",
+      userPassword: "",
+    };
+  }
+
+  req.session.inputData = null;
+
+  res.status(200).render("signup", { inputData: inputData });
 });
 
 router.get("/login", function (req, res) {
@@ -29,8 +42,17 @@ router.post("/signup", async function (req, res) {
     enteredUserEmail !== enteredUserComfirmEmail ||
     !enteredUserEmail.includes("@")
   ) {
-    console.log("Error Input");
-    return res.redirect("/signup");
+    req.session.inputData = {
+      hasError: true,
+      message: "Invalid Input",
+      email: enteredUserEmail,
+      comfirmEmail: enteredUserComfirmEmail,
+      userPassword: enteredUserPassword,
+    };
+    req.session.save(() => {
+      res.redirect("/signup");
+    });
+    return;
   }
 
   const exsistingUser = await userController.checkIfUserExsists(
@@ -40,7 +62,10 @@ router.post("/signup", async function (req, res) {
   );
 
   if (exsistingUser) {
-    console.log("Email is already taken!");
+    req.session.inputData = {
+      hasError: true,
+      message: "Email Already Exsists",
+    };
     return res.redirect("/signup");
   }
 
@@ -67,7 +92,10 @@ router.post("/login", async function (req, res) {
   );
 
   if (!exsistingUser) {
-    console.log("Email not Found!");
+    req.session.inputData = {
+      hasError: true,
+      message: "Email Not Found",
+    };
     return res.redirect("/login");
   }
 
@@ -78,7 +106,10 @@ router.post("/login", async function (req, res) {
   );
 
   if (!passwordsAreEquael) {
-    console.log("Password is Wrong!");
+    req.session.inputData = {
+      hasError: true,
+      message: "Email Not Found",
+    };
     return res.redirect("/login");
   }
 

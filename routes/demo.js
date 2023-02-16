@@ -83,14 +83,25 @@ router.post("/login", async function (req, res) {
   }
 
   console.log("User is Authenticated!");
-
-  res.redirect("/admin");
+  req.session.user = { id: exsistingUser._id, email: exsistingUser.email };
+  req.session.isAuthenticated = true;
+  req.session.save(() => {
+    res.redirect("/admin");
+  });
 });
 
 router.get("/admin", function (req, res) {
+  if (!req.session.isAuthenticated) {
+    return res.status(401).render("401");
+  }
   res.render("admin");
 });
 
-router.post("/logout", function (req, res) {});
+router.post("/logout", function (req, res) {
+  req.session.user = null;
+  req.session.isAuthenticated = false;
+
+  res.redirect("/");
+});
 
 module.exports = router;

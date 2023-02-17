@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const db = require("./data/mongodb-connect");
 const demoRoutes = require("./routes/demo");
+const userController = require("./controller/UserController");
 
 db.connectMongoDB();
 
@@ -29,6 +30,24 @@ app.use(
     },
   })
 );
+
+app.use(async (req, res, next) => {
+  const user = req.session.user;
+  const isAuthenticated = req.session.isAuthenticated;
+
+  if (!user || !isAuthenticated) {
+    return next();
+  }
+
+  const userDoc = await userController.getUserById(req, res, user.id);
+  const isAdmin = userDoc.isAdmin;
+
+  res.locals.isAdmin = isAdmin;
+  res.locals.isAuth = isAuthenticated;
+  res.locals.user = userDoc;
+
+  next();
+});
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));

@@ -34,8 +34,11 @@ exports.createUser = async (req, res, objc) => {
   }
 };
 
-exports.getUserById = async (req, res) => {
+exports.getUserById = async (req, res, id) => {
   try {
+    if (id) {
+      return await userServices.getUserById(id);
+    }
     return await userServices.getUserById(req.params.id);
   } catch (err) {
     res.render("500", { error: err.message });
